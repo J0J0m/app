@@ -1,0 +1,172 @@
+/* Estilos Gerais e Header */
+body {
+    font-family: 'Georgia', serif; /* Fonte mais clássica */
+    margin: 0; 
+    padding: 0;
+    background-color: #fce4ec; /* Rosa bem claro */
+    color: #4a4a4a;
+}
+.store-header {
+    background-color: #e91e63; /* Rosa escuro/pink */
+    color: white; 
+    padding: 30px 40px;
+    text-align: center; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+.store-header h1 {
+    margin-bottom: 5px;
+    font-family: 'Playfair Display', serif; /* Fonte elegante */
+}
+
+/* Carrinho Contador */
+.cart-icon {
+    position: absolute; 
+    top: 35px; 
+    right: 40px; 
+    font-size: 1.8em;
+    cursor: pointer; 
+    color: #ffcdd2; /* Rosa claro para o ícone */
+    font-weight: bold;
+}
+.counter {
+    background-color: #ff3366; /* Vermelho vivo */
+    color: white; 
+    border-radius: 50%;
+    padding: 2px 7px; 
+    font-size: 0.6em; 
+    position: absolute;
+    top: -5px; 
+    right: -10px;
+    min-width: 10px;
+    text-align: center;
+}
+.flash-cart { animation: flash 0.5s; }
+@keyframes flash { 0% { transform: scale(1); } 50% { transform: scale(1.3); color: #c0392b; } 100% { transform: scale(1); } }
+
+/* # LAYOUT LADO A LADO - USANDO GRID # */
+.product-grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 30px;
+    width: 90%; 
+    max-width: 1200px; 
+    margin: 40px auto;
+}
+
+/* Estilo do Card do Produto */
+.product-card {
+    background-color: white; 
+    border: 1px solid #f8bbd0; /* Borda rosa suave */
+    border-radius: 15px; 
+    box-shadow: 0 8px 15px rgba(233, 30, 99, 0.15); /* Sombra pink */
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden; 
+    text-align: center;
+    display: flex; 
+    flex-direction: column;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(233, 30, 99, 0.3);
+}
+
+.image-container { 
+    width: 100%; 
+    height: 350px; 
+    overflow: hidden; 
+}
+.product-image { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+.product-info { 
+    padding: 20px; 
+    flex-grow: 1; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+}
+.product-name { 
+    font-size: 1.5em; 
+    color: #880e4f; /* Vinho escuro */
+    margin: 0 0 10px 0; 
+}
+.product-price { 
+    font-size: 2.2em; 
+    color: #ff3366; 
+    font-weight: 700; 
+    margin: 10px 0 15px 0; 
+}
+.buy-button { 
+    background-color: #ff7899; /* Rosa chiclete */
+    color: white; 
+    border: none; 
+    padding: 15px 25px; 
+    text-transform: uppercase; 
+    font-weight: bold; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: background-color 0.2s; 
+    width: 100%; 
+}
+.buy-button:hover {
+    background-color: #e91e63;
+}
+
+/* Estilos de Cores por tipo de presente */
+.item-rosa { border-top: 5px solid #ff3366; }
+.item-azul { border-top: 5px solid #64b5f6; }
+.item-roxo { border-top: 5px solid #ab47bc; }
+
+
+/* # ESTILOS DO PAINEL LATERAL DO CARRINHO # */
+.cart-panel {
+    position: fixed; top: 0; right: 0; width: 380px; height: 100%;
+    background-color: white; 
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+    z-index: 1000; 
+    transform: translateX(100%); 
+    transition: transform 0.5s ease-out; 
+    padding: 20px;
+    box-sizing: border-box; 
+    display: flex; flex-direction: column;
+}
+.cart-panel h2 { color: #e91e63; border-bottom: 2px solid #ffcdd2; padding-bottom: 10px;}
+.cart-panel.open { transform: translateX(0); }
+.close-btn { position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5em; cursor: pointer; color: #e91e63; }
+.cart-list { list-style: none; padding: 0; margin: 20px 0; overflow-y: auto; flex-grow: 1; }
+.cart-list li { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px 0; 
+    border-bottom: 1px dashed #f8bbd0; /* Linha pontilhada rosa */
+    font-size: 1em; 
+}
+.item-name { font-weight: bold; color: #4a4a4a; flex-grow: 1; text-align: left; }
+.item-details { color: #666; font-size: 0.9em; margin-right: 10px;}
+.remove-btn { 
+    background-color: #ffcdd2; 
+    color: #e91e63; 
+    border: none; 
+    border-radius: 50%; 
+    width: 25px; 
+    height: 25px; 
+    cursor: pointer; 
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+.remove-btn:hover { background-color: #ff3366; color: white;}
+.cart-footer { border-top: 2px solid #e91e63; padding-top: 15px; margin-top: 15px; }
+.cart-footer p { font-size: 1.6em; font-weight: bold; display: flex; justify-content: space-between; color: #e91e63; }
+.checkout-btn { 
+    background-color: #e91e63; 
+    color: white; 
+    border: none; 
+    padding: 18px; 
+    width: 100%; 
+    font-size: 1.1em;
+    border-radius: 8px;
+}

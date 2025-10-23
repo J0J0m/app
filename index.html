@@ -3,310 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tsukishima Kei Collectibles - O Catálogo Completo</title>
-    <style>
-        /* Estilos Globais e Fundo Colorido */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f8ff; /* Azul Claro/Alice Blue */
-            color: #333;
-        }
-
-        /* Cabeçalho */
-        header {
-            background-color: #ffd700; /* Dourado/Amarelo Forte (Em homenagem ao Kei!) */
-            color: #333;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            text-shadow: 1px 1px #8b0000;
-        }
-        
-        /* Ícone de Carrinho no Cabeçalho */
-        .cart-icon {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #4b0082;
-            font-weight: bold;
-        }
-        .cart-count {
-            background-color: #dc143c;
-            color: white;
-            border-radius: 50%;
-            padding: 2px 7px;
-            font-size: 0.7em;
-            position: absolute;
-            top: -5px;
-            right: -10px;
-        }
-
-        /* Layout dos Produtos */
-        .container {
-            width: 90%;
-            max-width: 1400px; /* Aumentado para caber 4 itens melhor */
-            margin: 40px auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-        }
-
-        /* Card de Produto com Toque Clicável */
-        .product-card {
-            background-color: white;
-            border: 5px solid #00ced1;
-            border-radius: 15px;
-            padding: 20px;
-            /* AJUSTE AQUI: MUDANÇA PARA 4 PRODUTOS POR LINHA (25%) */
-            width: calc(25% - 30px); 
-            min-width: 250px; /* Reduzido o mínimo para caberem mais itens */
-            /* FIM DO AJUSTE */
-            
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-align: center;
-            overflow: hidden;
-            text-decoration: none;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 12px 25px rgba(255, 69, 0, 0.5);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 300px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            background-color: #eee;
-            background-size: contain; 
-            background-repeat: no-repeat; 
-            background-position: center;
-        }
-        
-        /* ############## IMAGENS DOS 30 PRODUTOS ############## */
-        /* IMAGEM ENVIADA PELO USUÁRIO APLICADA NO PRODUTO 1 */
-        .product-card:nth-child(1) .product-image { background-image: url('0917e14c2268603d81cbee6dc44704ac.jpg'); }
-        .product-card:nth-child(2) .product-image { background-image: url('tsukishima_figure_2.jpg'); }
-        .product-card:nth-child(3) .product-image { background-image: url('tsukishima_figure_3.jpg'); }
-        .product-card:nth-child(4) .product-image { background-image: url('tsukishima_figure_4.jpg'); }
-        .product-card:nth-child(5) .product-image { background-image: url('tsukishima_figure_5.jpg'); }
-        .product-card:nth-child(6) .product-image { background-image: url('tsukishima_figure_6.jpg'); }
-        .product-card:nth-child(7) .product-image { background-image: url('tsukishima_figure_7.jpg'); }
-        .product-card:nth-child(8) .product-image { background-image: url('tsukishima_figure_8.jpg'); }
-        .product-card:nth-child(9) .product-image { background-image: url('tsukishima_figure_9.jpg'); }
-        .product-card:nth-child(10) .product-image { background-image: url('tsukishima_figure_10.jpg'); }
-        .product-card:nth-child(11) .product-image { background-image: url('tsukishima_figure_11.jpg'); }
-        .product-card:nth-child(12) .product-image { background-image: url('tsukishima_figure_12.jpg'); }
-        .product-card:nth-child(13) .product-image { background-image: url('tsukishima_figure_13.jpg'); }
-        .product-card:nth-child(14) .product-image { background-image: url('tsukishima_figure_14.jpg'); }
-        .product-card:nth-child(15) .product-image { background-image: url('tsukishima_figure_15.jpg'); }
-        .product-card:nth-child(16) .product-image { background-image: url('tsukishima_figure_16.jpg'); }
-        .product-card:nth-child(17) .product-image { background-image: url('tsukishima_figure_17.jpg'); }
-        .product-card:nth-child(18) .product-image { background-image: url('tsukishima_figure_18.jpg'); }
-        .product-card:nth-child(19) .product-image { background-image: url('tsukishima_figure_19.jpg'); }
-        .product-card:nth-child(20) .product-image { background-image: url('tsukishima_figure_20.jpg'); }
-        .product-card:nth-child(21) .product-image { background-image: url('tsukishima_figure_21.jpg'); }
-        .product-card:nth-child(22) .product-image { background-image: url('tsukishima_figure_22.jpg'); }
-        .product-card:nth-child(23) .product-image { background-image: url('tsukishima_figure_23.jpg'); }
-        .product-card:nth-child(24) .product-image { background-image: url('tsukishima_figure_24.jpg'); }
-        .product-card:nth-child(25) .product-image { background-image: url('tsukishima_figure_25.jpg'); }
-        .product-card:nth-child(26) .product-image { background-image: url('tsukishima_figure_26.jpg'); }
-        .product-card:nth-child(27) .product-image { background-image: url('tsukishima_figure_27.jpg'); }
-        .product-card:nth-child(28) .product-image { background-image: url('tsukishima_figure_28.jpg'); }
-        .product-card:nth-child(29) .product-image { background-image: url('tsukishima_figure_29.jpg'); }
-        .product-card:nth-child(30) .product-image { background-image: url('tsukishima_figure_30.jpg'); }
-        /* ###################################################### */
-
-
-        .product-name {
-            font-size: 1.5em;
-            color: #4b0082;
-            margin-bottom: 10px;
-        }
-
-        .product-description {
-            font-size: 1em;
-            color: #6a5acd;
-            margin-bottom: 15px;
-            min-height: 40px;
-        }
-
-        .product-price {
-            font-size: 2em;
-            color: #dc143c;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-top: 2px dashed #f08080;
-            padding-top: 10px;
-        }
-
-        .buy-button {
-            background-color: #3cb371;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-transform: uppercase;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            width: 100%;
-            box-sizing: border-box;
-            margin-top: 10px;
-        }
-
-        .buy-button:hover {
-            background-color: #2e8b57;
-        }
-        
-        /* Estilo para a mensagem de carrinho */
-        .cart-message {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #333;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 0.5s;
-            z-index: 1000;
-        }
-        .cart-message.show {
-            opacity: 1;
-        }
-
-        /* Responsividade (Ajuste para telas menores) */
-        @media (max-width: 1200px) { /* Em telas de até 1200px, mostra 3 por linha */
-            .product-card {
-                width: calc(33% - 30px);
-            }
-        }
-        
-        @media (max-width: 900px) { /* Em telas de até 900px, mostra 2 por linha */
-            .product-card {
-                width: calc(50% - 30px);
-            }
-        }
-
-        @media (max-width: 600px) { /* Em telas pequenas (celular), mostra 1 por linha */
-            .product-card {
-                width: 100%;
-            }
-        }
-    </style>
+    <title>Meu Amor - Presentes Especiais</title>
+    <link rel="stylesheet" href="styles.css"> 
 </head>
 <body>
 
-    <header>
-        <h1>🏐 Tsukishima Kei Collectibles 🤓</h1>
-        <div class="cart-icon">
-            🛒 Carrinho (<span id="cart-count">0</span>)
+    <header class="store-header">
+        <div class="cart-icon" title="Ver Carrinho" onclick="toggleCart()">
+            💖 <span id="cart-counter" class="counter">0</span>
         </div>
+        <h1>Meu Amor: Presentes Especiais</h1>
+        <p>Encontre o presente perfeito para celebrar o amor.</p>
     </header>
 
-    <div class="container">
+    <div class="product-grid">
+
+        <div class="product-card item-rosa">
+            <div class="image-container">
+                <img src="imagens/figura_a.jpg" alt="Presente 1" class="product-image">
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Buquê Eterno</h3>
+                <p class="product-price">R$ 250,00</p>
+                <button class="buy-button" 
+                        onclick="addToCart(this)" 
+                        data-name="Buquê Eterno" 
+                        data-price="250.00">COMPRAR</button>
+            </div>
+        </div>
+
+        <div class="product-card item-azul">
+            <div class="image-container">
+                <img src="imagens/figura_b.jpg" alt="Presente 2" class="product-image">
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Urso de Pelúcia Gigante</h3>
+                <p class="product-price">R$ 199,90</p>
+                <button class="buy-button" 
+                        onclick="addToCart(this)" 
+                        data-name="Urso de Pelúcia Gigante" 
+                        data-price="199.90">COMPRAR</button>
+            </div>
+        </div>
+
+        <div class="product-card item-rosa">
+            <div class="image-container">
+                <img src="imagens/figura_c.jpg" alt="Presente 3" class="product-image">
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Caixa de Chocolates Premium</h3>
+                <p class="product-price">R$ 310,50</p>
+                <button class="buy-button" 
+                        onclick="addToCart(this)" 
+                        data-name="Caixa de Chocolates Premium" 
+                        data-price="310.50">COMPRAR</button>
+            </div>
+        </div>
+
+        <div class="product-card item-roxo">
+            <div class="image-container">
+                <img src="imagens/figura_d.jpg" alt="Presente 4" class="product-image">
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Velas Aromáticas</h3>
+                <p class="product-price">R$ 145,00</p>
+                <button class="buy-button" 
+                        onclick="addToCart(this)" 
+                        data-name="Velas Aromáticas" 
+                        data-price="145.00">COMPRAR</button>
+            </div>
+        </div>
+
+        <div class="product-card item-azul">
+            <div class="image-container">
+                <img src="imagens/figura_e.jpg" alt="Presente 5" class="product-image">
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Kit Cinema a Dois</h3>
+                <p class="product-price">R$ 275,00</p>
+                <button class="buy-button" 
+                        onclick="addToCart(this)" 
+                        data-name="Kit Cinema a Dois" 
+                        data-price="275.00">COMPRAR</button>
+            </div>
+        </div>
+
+        <div class="product-card item-roxo">
+            <div class="image-container">
+                <img src="imagens/figura_f.jpg" alt="Presente 6" class="product-image">
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">Álbum de Memórias</h3>
+                <p class="product-price">R$ 200,00</p>
+                <button class="buy-button" 
+                        onclick="addToCart(this)" 
+                        data-name="Álbum de Memórias" 
+                        data-price="200.00">COMPRAR</button>
+            </div>
+        </div>
+
+    </div>
+    
+    <div id="cart-panel" class="cart-panel">
+        <h2>💖 Seu Carrinho 💖</h2>
+        <button class="close-btn" onclick="toggleCart()">X</button>
+        <ul id="cart-list" class="cart-list">
+            <li class="empty-message">Nenhum presente especial aqui...</li>
+        </ul>
+        <div class="cart-footer">
+            <p>Total: <span id="cart-total">R$ 0,00</span></p>
+            <button class="checkout-btn">Finalizar Pedido</button>
+        </div>
+    </div>
+    
+    <script>
+        // CÓDIGO JAVASCRIPT COMPLETO E FUNCIONAL
+
+        // Variáveis que vão armazenar os elementos HTML
+        let cartCount = 0;
+        let cart = [];
+        let cartCounterElement, cartListElement, cartTotalElement, cartPanelElement, cartIconElement;
+
+        // Garante que o código só rode depois que o HTML estiver carregado
+        window.onload = function() {
+            // 1. Referências aos elementos HTML
+            cartCounterElement = document.getElementById('cart-counter');
+            cartListElement = document.getElementById('cart-list');
+            cartTotalElement = document.getElementById('cart-total');
+            cartPanelElement = document.getElementById('cart-panel');
+            cartIconElement = document.querySelector('.cart-icon');
+            
+            // 2. Inicializa a exibição do carrinho
+            updateCartDisplay();
+        };
+
+        /**
+         * Adiciona um produto ao carrinho.
+         * @param {HTMLElement} buttonElement - O botão clicado.
+         */
+        function addToCart(buttonElement) {
+            const productName = buttonElement.getAttribute('data-name');
+            const price = parseFloat(buttonElement.getAttribute('data-price')); 
+
+            if (isNaN(price)) {
+                console.error("Erro: Preço inválido no data-price para " + productName);
+                return;
+            }
+
+            let found = cart.find(item => item.name === productName);
+
+            if (found) {
+                found.quantity++;
+            } else {
+                const newItem = { name: productName, price: price, quantity: 1 };
+                cart.push(newItem);
+            }
+
+            updateCartDisplay();
+            
+            if (cartIconElement) {
+                cartIconElement.classList.add('flash-cart');
+                setTimeout(() => {
+                    cartIconElement.classList.remove('flash-cart');
+                }, 500);
+            }
+        }
         
-        <a class="product-card" href="detalhes_tsuki_1.html">
-            <div>
-                <div class="product-image" role="img" aria-label="Action Figure do Tsukishima Kei de Uniforme"></div>
-                <h2 class="product-name">Tsukishima Kei - Uniforme Karasuno</h2>
-                <p class="product-description">Figura articulada em escala 1/8. Inclui óculos removíveis e uma expressão de tédio.</p>
-                <p class="product-price">R$ 479,90</p>
-            </div>
-            <button class="buy-button" onclick="addToCart(event, 'Tsukishima Uniforme', 479.90)">Adicionar ao Carrinho</button>
-        </a>
+        /**
+         * Remove um produto do carrinho.
+         */
+        function removeFromCart(productName) {
+             let itemIndex = cart.findIndex(item => item.name === productName);
 
-        <a class="product-card" href="detalhes_tsuki_2.html">
-            <div>
-                <div class="product-image" role="img" aria-label="Nendoroid do Tsukishima Kei com Viseira"></div>
-                <h2 class="product-name">Nendoroid Kei: Bloqueio Perfeito</h2>
-                <p class="product-description">Versão chibi fofa, com peças de bloqueio e rosto de provocação. Edição Limitada.</p>
-                <p class="product-price">R$ 319,50</p>
-            </div>
-            <button class="buy-button" onclick="addToCart(event, 'Nendoroid Bloqueio', 319.50)">Adicionar ao Carrinho</button>
-        </a>
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity--;
+                // Se a quantidade chegar a zero, remove o item da lista
+                if (cart[itemIndex].quantity === 0) {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCartDisplay();
+        }
 
-        <a class="product-card" href="detalhes_tsuki_3.html">
-            <div>
-                <div class="product-image" role="img" aria-label="Estátua Tsukishima Kei: Ponto Final"></div>
-                <h2 class="product-name">Estátua Kei: Ponto Final</h2>
-                <p class="product-description">Estátua premium em PVC. Escala 1/6, capturando o momento icônico do bloqueio.</p>
-                <p class="product-price">R$ 999,00</p>
-            </div>
-            <button class="buy-button" onclick="addToCart(event, 'Estátua Ponto Final', 999.00)">Adicionar ao Carrinho</button>
-        </a>
-        
-        <a class="product-card" href="detalhes_tsuki_4.html">
-            <div>
-                <div class="product-image" role="img" aria-label="Figura de Tsukishima no Treino"></div>
-                <h2 class="product-name">Kei: Treino Intensivo</h2>
-                <p class="product-description">Figura com agasalho de treino, pose relaxada e fones de ouvido.</p>
-                <p class="product-price">R$ 350,00</p>
-            </div>
-            <button class="buy-button" onclick="addToCart(event, 'Kei Treino', 350.00)">Adicionar ao Carrinho</button>
-        </a>
+        /**
+         * Atualiza o contador de itens e a lista de produtos no painel.
+         */
+        function updateCartDisplay() {
+            let totalItems = 0;
+            let totalPrice = 0;
+            
+            if (!cartListElement) return;
 
-        <a class="product-card" href="detalhes_tsuki_5.html">
-            <div>
-                <div class="product-image" role="img" aria-label="Funko Pop do Tsukishima com óculos"></div>
-                <h2 class="product-name">Funko Pop! Tsukki Cansado</h2>
-                <p class="product-description">Funko Pop exclusivo com rosto de desinteresse e camisa de treino.</p>
-                <p class="product-price">R$ 149,90</p>
-            </div>
-            <button class="buy-button" onclick="addToCart(event, 'Funko Cansado', 149.90)">Adicionar ao Carrinho</button>
-        </a>
+            cartListElement.innerHTML = ''; 
 
-        <a class="product-card" href="detalhes_tsuki_6.html">
-            <div>
-                <div class="product-image" role="img" aria-label="Estátua Tsukishima Kei no Saque"></div>
-                <h2 class="product-name">Estátua: Saque Flutuante</h2>
-                <p class="product-description">Estátua detalhada capturando a força e precisão do seu saque.</p>
-                <p class="product-price">R$ 780,00</p>
-            </div>
-            <button class="buy-button" onclick="addToCart(event, 'Estátua Saque', 780.00)">Adicionar ao Carrinho</button>
-        </a>
-        
-        <a class="product-card" href="detalhes_tsuki_7.html">
-            <div>
-                <div class="product-image" role="img" aria-label="Mini Figura de Tsukishima com o irmão"></div>
-                <h2 class="product-name">Set Mini: Kei e Akiteru</h2>
-                <p class="product-description">Conjunto com mini figuras articuladas do Kei e seu irmão. (Escala 1/20)</p>
-                <p class="product-price">R$ 410,00</p>
-            </div>
-            <button class="buy-button" onclick="addToCart(event, 'Set Kei e Irmão', 410.00)">Adicionar ao Carrinho</button>
-        </a>
+            if (cart.length === 0) {
+                const li = document.createElement('li');
+                li.className = 'empty-message';
+                li.textContent = 'Nenhum presente especial aqui...';
+                cartListElement.appendChild(li);
+            } else {
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    
+                    totalItems += item.quantity;
+                    totalPrice += itemTotal;
 
-        <a class="product-card" href="detalhes_tsuki_8.html">
-            <div>
-                <div class="product-image" role="img" aria-label="Estátua de Bloqueio Triplo"></div>
-                <h2 class="product-name">Estátua: Bloqueio Triplo (Kei no centro)</h2>
-                <p class="product-description">Peça de diorama com o Tsukishima liderando o bloqueio. Edição rara.</p>
-                <p class="product-price">R$ 1.250,00</p>
-            </div>
-            <button class="buy-button" onclick="addToCart(event, 'Bloqueio Triplo', 1250.00)">Adicionar ao Carrinho</button>
-        </a>
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-details">
+                            ${item.quantity} x R$ ${item.price.toFixed(2).replace('.', ',')} 
+                        </span>
+                        <button class="remove-btn" onclick="removeFromCart('${item.name}')">x</button>
+                    `;
+                    cartListElement.appendChild(li);
+                });
+            }
 
-        <a class="product-card" href="detalhes_tsuki_9.html">
-            <div>
-                <div class="product-image" role="img" aria-label="Figura de Tsukishima casual"></div>
-                <h2 class="product-name">Kei: Dia de Folga</h2>
-                <p class="product-description">Figura com roupas casuais, casaco e mochila. Acompanha fones.</p>
+            if (cartCounterElement) cartCounterElement.textContent = totalItems;
+            if (cartTotalElement) cartTotalElement.textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+        }
+
+        /**
+         * Abre e fecha o painel lateral do carrinho.
+         */
+        function toggleCart() {
+            if (!cartPanelElement) return;
+            
+            cartPanelElement.classList.toggle('open');
+            
+            if (cartPanelElement.classList.contains('open')) {
+                 updateCartDisplay();
+            }
+        }
+    </script>
+</body>
+</html>
