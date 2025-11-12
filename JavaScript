@@ -1,158 +1,248 @@
-<script>
-    // CÓDIGO JAVASCRIPT COMPLETO E FUNCIONAL
+// ==========================================================
+// 1. ARRAY DE PRODUTOS COM DESCRIÇÕES
+// ==========================================================
+const productsData = [
+    {
+        id: 1,
+        name: "camisa amor",
+        price: "250.00",
+        image: "imagens/WhatsApp Image 2025-10-23 at 21.22.57.jpeg",
+        description: "Esta camisa é um símbolo do seu amor incondicional. Feita com tecido premium e design exclusivo. Perfeita para um passeio romântico.",
+    },
+    {
+        id: 2,
+        name: "moletom homem gostoso",
+        price: "199.90",
+        image: "imagens/WhatsApp Image 2025-10-23 at 21.22.58.jpeg",
+        description: "Um moletom superconfortável e estiloso para aquele homem especial. O toque macio e o corte moderno garantem um visual irresistível.",
+    },
+    {
+        id: 3,
+        name: "garrafa sedutora de homem gostoso",
+        price: "310.50",
+        image: "imagens/WhatsApp Image 2025-10-23 at 21.22.57 (2).jpeg",
+        description: "Hidratação com charme! Esta garrafa térmica mantém a bebida na temperatura ideal e adiciona um toque sedutor ao dia a dia dele. É um presente prático e carinhoso.",
+    },
+    {
+        id: 4,
+        name: "bolsa de homem cajuzinho",
+        price: "145.00",
+        image: "imagens/WhatsApp Image 2025-10-23 at 21.22.58 (1).jpeg",
+        description: "Uma bolsa compacta e masculina, perfeita para carregar o essencial com estilo. O design 'cajuzinho' é uma referência divertida e exclusiva para quem você ama.",
+    },
+    {
+        id: 5,
+        name: "caneca do meu amor",
+        price: "275.00",
+        image: "imagens/WhatsApp Image 2025-10-23 at 20.54.13.jpeg",
+        description: "Para o café da manhã ou a pausa da tarde. Esta caneca personalizada é um lembrete diário do seu carinho. Um presente simples, mas cheio de afeto.",
+    },
+    {
+        id: 6,
+        name: "capinha do meu lindo",
+        price: "200.00",
+        image: "imagens/WhatsApp Image 2025-10-23 at 21.22.57 (1).jpeg",
+        description: "Proteção e estilo para o celular do seu amor. Capinha resistente com uma estampa exclusiva que demonstra o quanto ele é lindo para você.",
+    },
+];
 
-    // Variáveis que vão armazenar os elementos HTML
-    let cart = []; // Redefinido para manter a coerência
-    let cartCounterElement, cartListElement, cartTotalElement, cartPanelElement, cartIconElement;
+// Variáveis que vão armazenar os elementos HTML
+let cart = []; 
+let cartCounterElement, cartListElement, cartTotalElement, cartPanelElement, cartIconElement;
 
-    // Garante que o código só rode depois que o HTML estiver carregado
-    window.onload = function() {
-        // 1. Referências aos elementos HTML (Estrutura mantida)
-        cartCounterElement = document.getElementById('cart-counter');
-        cartListElement = document.getElementById('cart-list');
-        cartTotalElement = document.getElementById('cart-total');
-        cartPanelElement = document.getElementById('cart-panel');
-        cartIconElement = document.querySelector('.cart-icon');
-        
-        // 2. Inicializa a exibição do carrinho (Estrutura mantida)
-        updateCartDisplay();
+// Elementos da nova modal
+let modalOverlay;
 
-        // 3. NOVO: Chamada para configurar os links dos produtos
-        setupProductLinks();
-    };
+// Garante que o código só rode depois que o HTML estiver carregado
+window.onload = function() {
+    // 1. Referências aos elementos HTML
+    cartCounterElement = document.getElementById('cart-counter');
+    cartListElement = document.getElementById('cart-list');
+    cartTotalElement = document.getElementById('cart-total');
+    cartPanelElement = document.getElementById('cart-panel');
+    cartIconElement = document.querySelector('.cart-icon');
     
-    /**
-     * NOVO: Torna cada 'product-card' clicável e redireciona para uma página de detalhes.
-     */
-    function setupProductLinks() {
-        const productCards = document.querySelectorAll('.product-card');
+    // 2. Inicializa a exibição do carrinho
+    updateCartDisplay();
+
+    // 3. NOVO: Inicializa a modal e configura os cliques
+    setupProductModal();
+    setupProductLinks(); 
+};
+
+// ==========================================================
+// 2. LÓGICA DE MODAL (Visualização Individual)
+// ==========================================================
+
+/**
+ * Injeta o HTML do modal e configura os eventos de fechar.
+ */
+function setupProductModal() {
+    const modalHTML = `
+        <div id="product-modal-overlay" class="product-modal-overlay">
+            <div class="product-details-box">
+                <button id="close-modal" class="close-modal-btn">&times;</button>
+                <img id="modal-product-image" src="" alt="Imagem do Produto" class="modal-image">
+                <h2 id="modal-product-name" class="modal-title"></h2>
+                <p id="modal-product-price" class="modal-price"></p>
+                <p id="modal-product-description" class="modal-description"></p>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    modalOverlay = document.getElementById('product-modal-overlay');
+    const closeButton = document.getElementById('close-modal');
+
+    // Eventos para fechar a modal
+    closeButton.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (event) => {
+        if (event.target === modalOverlay) {
+            closeModal();
+        }
+    });
+}
+
+/**
+ * Abre e preenche a modal com os dados do produto.
+ * @param {number} productId - O ID do produto clicado (do data-product-id).
+ */
+function showProductDetails(productId) {
+    const product = productsData.find(p => p.id === productId);
+
+    if (product && modalOverlay) {
+        document.getElementById('modal-product-name').textContent = product.name;
+        document.getElementById('modal-product-image').src = product.image;
         
-        productCards.forEach(card => {
-            // Pega o nome do produto no botão COMPRAR
-            const buyButton = card.querySelector('.buy-button');
-            const productName = buyButton ? buyButton.getAttribute('data-name') : null;
-            
-            if (productName) {
-                // Formata o nome para ser usado na URL (ex: "camisa amor" -> "camisa-amor")
-                const slug = productName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-                
-                // Cria a URL de destino. (Ex: "produto/camisa-amor.html")
-                const productUrl = `produto/${slug}.html`; 
+        const formattedPrice = `R$ ${parseFloat(product.price).toFixed(2).replace('.', ',')}`;
+        document.getElementById('modal-product-price').textContent = formattedPrice;
+        
+        document.getElementById('modal-product-description').textContent = product.description;
 
-                // Adiciona um evento de clique ao cartão (exceto o botão de compra)
-                card.style.cursor = 'pointer'; // Adiciona visualização de clique
+        modalOverlay.style.display = 'flex';
+    }
+}
 
-                card.addEventListener('click', function(event) {
-                    // Impede o redirecionamento se o clique for no botão 'COMPRAR' ou em um de seus filhos
-                    if (event.target.classList.contains('buy-button') || event.target.closest('.buy-button')) {
-                        return; 
-                    }
-                    
-                    // Redireciona o usuário para a página individual do produto
-                    window.location.href = productUrl;
-                });
+/**
+ * Fecha o modal de detalhes do produto.
+ */
+function closeModal() {
+    if (modalOverlay) {
+        modalOverlay.style.display = 'none';
+    }
+}
+
+/**
+ * Configura o evento de clique nos cartões para ABRIR A MODAL.
+ */
+function setupProductLinks() {
+    const productCards = document.querySelectorAll('.product-card');
+    
+    productCards.forEach((card) => {
+        const productId = parseInt(card.getAttribute('data-product-id'));
+        
+        card.style.cursor = 'pointer'; 
+
+        card.addEventListener('click', function(event) {
+            // Impede a abertura da modal se o clique for no botão 'COMPRAR'
+            if (event.target.classList.contains('buy-button') || event.target.closest('.buy-button')) {
+                return; 
             }
+            
+            if (!isNaN(productId)) {
+                showProductDetails(productId);
+            }
+        });
+    });
+}
+
+
+// ==========================================================
+// 3. FUNÇÕES DE CARRINHO ORIGINAIS (Mantidas)
+// ==========================================================
+
+function addToCart(buttonElement) {
+    const productName = buttonElement.getAttribute('data-name');
+    const price = parseFloat(buttonElement.getAttribute('data-price')); 
+
+    if (isNaN(price)) {
+        console.error("Erro: Preço inválido no data-price para " + productName);
+        return;
+    }
+
+    let found = cart.find(item => item.name === productName);
+
+    if (found) {
+        found.quantity++;
+    } else {
+        const newItem = { name: productName, price: price, quantity: 1 };
+        cart.push(newItem);
+    }
+
+    updateCartDisplay();
+    
+    if (cartIconElement) {
+        cartIconElement.classList.add('flash-cart');
+        setTimeout(() => {
+            cartIconElement.classList.remove('flash-cart');
+        }, 500);
+    }
+}
+
+function removeFromCart(productName) {
+     let itemIndex = cart.findIndex(item => item.name === productName);
+
+    if (itemIndex > -1) {
+        cart[itemIndex].quantity--;
+        if (cart[itemIndex].quantity === 0) {
+            cart.splice(itemIndex, 1);
+        }
+    }
+    updateCartDisplay();
+}
+
+function updateCartDisplay() {
+    let totalItems = 0;
+    let totalPrice = 0;
+    
+    if (!cartListElement) return;
+
+    cartListElement.innerHTML = ''; 
+
+    if (cart.length === 0) {
+        const li = document.createElement('li');
+        li.className = 'empty-message';
+        li.textContent = 'Nenhum presente especial aqui...';
+        cartListElement.appendChild(li);
+    } else {
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            
+            totalItems += item.quantity;
+            totalPrice += itemTotal;
+
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span class="item-name">${item.name}</span>
+                <span class="item-details">
+                    ${item.quantity} x R$ ${item.price.toFixed(2).replace('.', ',')} 
+                </span>
+                <button class="remove-btn" onclick="removeFromCart('${item.name}')">x</button>
+            `;
+            cartListElement.appendChild(li);
         });
     }
 
+    if (cartCounterElement) cartCounterElement.textContent = totalItems;
+    if (cartTotalElement) cartTotalElement.textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+}
 
-    /**
-     * Adiciona um produto ao carrinho. (Função Original Mantida)
-     * @param {HTMLElement} buttonElement - O botão clicado.
-     */
-    function addToCart(buttonElement) {
-        const productName = buttonElement.getAttribute('data-name');
-        const price = parseFloat(buttonElement.getAttribute('data-price')); 
-
-        if (isNaN(price)) {
-            console.error("Erro: Preço inválido no data-price para " + productName);
-            return;
-        }
-
-        let found = cart.find(item => item.name === productName);
-
-        if (found) {
-            found.quantity++;
-        } else {
-            const newItem = { name: productName, price: price, quantity: 1 };
-            cart.push(newItem);
-        }
-
-        updateCartDisplay();
-        
-        if (cartIconElement) {
-            cartIconElement.classList.add('flash-cart');
-            setTimeout(() => {
-                cartIconElement.classList.remove('flash-cart');
-            }, 500);
-        }
-    }
+function toggleCart() {
+    if (!cartPanelElement) return;
     
-    /**
-     * Remove um produto do carrinho. (Função Original Mantida)
-     */
-    function removeFromCart(productName) {
-         let itemIndex = cart.findIndex(item => item.name === productName);
-
-        if (itemIndex > -1) {
-            cart[itemIndex].quantity--;
-            // Se a quantidade chegar a zero, remove o item da lista
-            if (cart[itemIndex].quantity === 0) {
-                cart.splice(itemIndex, 1);
-            }
-        }
-        updateCartDisplay();
+    cartPanelElement.classList.toggle('open');
+    
+    if (cartPanelElement.classList.contains('open')) {
+         updateCartDisplay();
     }
-
-    /**
-     * Atualiza o contador de itens e a lista de produtos no painel. (Função Original Mantida)
-     */
-    function updateCartDisplay() {
-        let totalItems = 0;
-        let totalPrice = 0;
-        
-        if (!cartListElement) return;
-
-        cartListElement.innerHTML = ''; 
-
-        if (cart.length === 0) {
-            const li = document.createElement('li');
-            li.className = 'empty-message';
-            li.textContent = 'Nenhum presente especial aqui...';
-            cartListElement.appendChild(li);
-        } else {
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                
-                totalItems += item.quantity;
-                totalPrice += itemTotal;
-
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <span class="item-name">${item.name}</span>
-                    <span class="item-details">
-                        ${item.quantity} x R$ ${item.price.toFixed(2).replace('.', ',')} 
-                    </span>
-                    <button class="remove-btn" onclick="removeFromCart('${item.name}')">x</button>
-                `;
-                cartListElement.appendChild(li);
-            });
-        }
-
-        if (cartCounterElement) cartCounterElement.textContent = totalItems;
-        if (cartTotalElement) cartTotalElement.textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
-    }
-
-    /**
-     * Abre e fecha o painel lateral do carrinho. (Função Original Mantida)
-     */
-    function toggleCart() {
-        if (!cartPanelElement) return;
-        
-        cartPanelElement.classList.toggle('open');
-        
-        if (cartPanelElement.classList.contains('open')) {
-             updateCartDisplay();
-        }
-    }
-</script>
+}
