@@ -1,0 +1,158 @@
+<script>
+    // CÓDIGO JAVASCRIPT COMPLETO E FUNCIONAL
+
+    // Variáveis que vão armazenar os elementos HTML
+    let cart = []; // Redefinido para manter a coerência
+    let cartCounterElement, cartListElement, cartTotalElement, cartPanelElement, cartIconElement;
+
+    // Garante que o código só rode depois que o HTML estiver carregado
+    window.onload = function() {
+        // 1. Referências aos elementos HTML (Estrutura mantida)
+        cartCounterElement = document.getElementById('cart-counter');
+        cartListElement = document.getElementById('cart-list');
+        cartTotalElement = document.getElementById('cart-total');
+        cartPanelElement = document.getElementById('cart-panel');
+        cartIconElement = document.querySelector('.cart-icon');
+        
+        // 2. Inicializa a exibição do carrinho (Estrutura mantida)
+        updateCartDisplay();
+
+        // 3. NOVO: Chamada para configurar os links dos produtos
+        setupProductLinks();
+    };
+    
+    /**
+     * NOVO: Torna cada 'product-card' clicável e redireciona para uma página de detalhes.
+     */
+    function setupProductLinks() {
+        const productCards = document.querySelectorAll('.product-card');
+        
+        productCards.forEach(card => {
+            // Pega o nome do produto no botão COMPRAR
+            const buyButton = card.querySelector('.buy-button');
+            const productName = buyButton ? buyButton.getAttribute('data-name') : null;
+            
+            if (productName) {
+                // Formata o nome para ser usado na URL (ex: "camisa amor" -> "camisa-amor")
+                const slug = productName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+                
+                // Cria a URL de destino. (Ex: "produto/camisa-amor.html")
+                const productUrl = `produto/${slug}.html`; 
+
+                // Adiciona um evento de clique ao cartão (exceto o botão de compra)
+                card.style.cursor = 'pointer'; // Adiciona visualização de clique
+
+                card.addEventListener('click', function(event) {
+                    // Impede o redirecionamento se o clique for no botão 'COMPRAR' ou em um de seus filhos
+                    if (event.target.classList.contains('buy-button') || event.target.closest('.buy-button')) {
+                        return; 
+                    }
+                    
+                    // Redireciona o usuário para a página individual do produto
+                    window.location.href = productUrl;
+                });
+            }
+        });
+    }
+
+
+    /**
+     * Adiciona um produto ao carrinho. (Função Original Mantida)
+     * @param {HTMLElement} buttonElement - O botão clicado.
+     */
+    function addToCart(buttonElement) {
+        const productName = buttonElement.getAttribute('data-name');
+        const price = parseFloat(buttonElement.getAttribute('data-price')); 
+
+        if (isNaN(price)) {
+            console.error("Erro: Preço inválido no data-price para " + productName);
+            return;
+        }
+
+        let found = cart.find(item => item.name === productName);
+
+        if (found) {
+            found.quantity++;
+        } else {
+            const newItem = { name: productName, price: price, quantity: 1 };
+            cart.push(newItem);
+        }
+
+        updateCartDisplay();
+        
+        if (cartIconElement) {
+            cartIconElement.classList.add('flash-cart');
+            setTimeout(() => {
+                cartIconElement.classList.remove('flash-cart');
+            }, 500);
+        }
+    }
+    
+    /**
+     * Remove um produto do carrinho. (Função Original Mantida)
+     */
+    function removeFromCart(productName) {
+         let itemIndex = cart.findIndex(item => item.name === productName);
+
+        if (itemIndex > -1) {
+            cart[itemIndex].quantity--;
+            // Se a quantidade chegar a zero, remove o item da lista
+            if (cart[itemIndex].quantity === 0) {
+                cart.splice(itemIndex, 1);
+            }
+        }
+        updateCartDisplay();
+    }
+
+    /**
+     * Atualiza o contador de itens e a lista de produtos no painel. (Função Original Mantida)
+     */
+    function updateCartDisplay() {
+        let totalItems = 0;
+        let totalPrice = 0;
+        
+        if (!cartListElement) return;
+
+        cartListElement.innerHTML = ''; 
+
+        if (cart.length === 0) {
+            const li = document.createElement('li');
+            li.className = 'empty-message';
+            li.textContent = 'Nenhum presente especial aqui...';
+            cartListElement.appendChild(li);
+        } else {
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                
+                totalItems += item.quantity;
+                totalPrice += itemTotal;
+
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="item-name">${item.name}</span>
+                    <span class="item-details">
+                        ${item.quantity} x R$ ${item.price.toFixed(2).replace('.', ',')} 
+                    </span>
+                    <button class="remove-btn" onclick="removeFromCart('${item.name}')">x</button>
+                `;
+                cartListElement.appendChild(li);
+            });
+        }
+
+        if (cartCounterElement) cartCounterElement.textContent = totalItems;
+        if (cartTotalElement) cartTotalElement.textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+    }
+
+    /**
+     * Abre e fecha o painel lateral do carrinho. (Função Original Mantida)
+     */
+    function toggleCart() {
+        if (!cartPanelElement) return;
+        
+        cartPanelElement.classList.toggle('open');
+        
+        if (cartPanelElement.classList.contains('open')) {
+             updateCartDisplay();
+        }
+    }
+</script>
