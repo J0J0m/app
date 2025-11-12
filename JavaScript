@@ -46,29 +46,35 @@ const productsData = [
     },
 ];
 
-// Variáveis que vão armazenar os elementos HTML
+// Variáveis globais (Serão inicializadas em 'main')
 let cart = []; 
 let cartCounterElement, cartListElement, cartTotalElement, cartPanelElement, cartIconElement;
-
-// Elementos da nova modal
 let modalOverlay;
 
-// Garante que o código só rode depois que o HTML estiver carregado
-window.onload = function() {
+// ==========================================================
+// BLOCO DE INICIALIZAÇÃO PRINCIPAL (CORREÇÃO)
+// ==========================================================
+
+function main() {
     // 1. Referências aos elementos HTML
     cartCounterElement = document.getElementById('cart-counter');
     cartListElement = document.getElementById('cart-list');
     cartTotalElement = document.getElementById('cart-total');
     cartPanelElement = document.getElementById('cart-panel');
     cartIconElement = document.querySelector('.cart-icon');
-    
+
     // 2. Inicializa a exibição do carrinho
     updateCartDisplay();
 
     // 3. NOVO: Inicializa a modal e configura os cliques
     setupProductModal();
     setupProductLinks(); 
-};
+}
+
+// Chamada de Inicialização
+// Usa DOMContentLoaded para garantir que o script rode assim que a estrutura HTML estiver pronta,
+// resolvendo potenciais problemas de timing.
+document.addEventListener('DOMContentLoaded', main);
 
 // ==========================================================
 // 2. LÓGICA DE MODAL (Visualização Individual)
@@ -105,7 +111,6 @@ function setupProductModal() {
 
 /**
  * Abre e preenche a modal com os dados do produto.
- * @param {number} productId - O ID do produto clicado (do data-product-id).
  */
 function showProductDetails(productId) {
     const product = productsData.find(p => p.id === productId);
@@ -158,7 +163,7 @@ function setupProductLinks() {
 
 
 // ==========================================================
-// 3. FUNÇÕES DE CARRINHO ORIGINAIS (Mantidas)
+// 3. FUNÇÕES DE CARRINHO ORIGINAIS (Agora funcionais após o setup)
 // ==========================================================
 
 function addToCart(buttonElement) {
@@ -205,6 +210,7 @@ function updateCartDisplay() {
     let totalItems = 0;
     let totalPrice = 0;
     
+    // VERIFICAÇÃO DE SEGURANÇA para evitar erros se a referência for nula
     if (!cartListElement) return;
 
     cartListElement.innerHTML = ''; 
